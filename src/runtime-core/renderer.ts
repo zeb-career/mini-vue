@@ -1,3 +1,4 @@
+import { isObject } from "../shared/index";
 import { createComponentInstance, setupComponent } from "./component";
 
 export function render(vnode, container) {
@@ -5,7 +6,28 @@ export function render(vnode, container) {
 }
 
 function patch(vnode, container) {
-  processComponent(vnode, container);
+
+  if (typeof vnode.type === 'string') {
+    processElement(vnode, container)
+  } else if (isObject(vnode.type)) {
+    processComponent(vnode, container);
+  }
+
+}
+
+function processElement(vnode, container) {
+  mountElement(vnode, container)
+}
+
+function mountElement(vnode, container) {
+  const el = document.createElement(vnode.type)
+  const { children, props } = vnode
+  el.textContent = children
+  for (const key in props) {
+    const val = props[key]
+    el.setAttribute(key, val)
+  }
+  container.append(el)
 }
 
 function processComponent(vnode, container) {
