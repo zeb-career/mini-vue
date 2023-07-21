@@ -45,16 +45,16 @@ function processComponent(vnode, container) {
   mountComponent(vnode, container);
 }
 
-function mountComponent(vnode, container) {
+function mountComponent(initialVnode, container) {
   // 1. 创建组件实例
-  const instance = createComponentInstance(vnode);
+  const instance = createComponentInstance(initialVnode);
   // 2. 创建组件的render方法
   setupComponent(instance);
   // 3. 执行render方法
-  setupRenderEffect(instance, vnode, container);
+  setupRenderEffect(instance, initialVnode, container);
 }
 
-function setupRenderEffect(instance: any, vnode: any, container: any) {
+function setupRenderEffect(instance: any, initialVnode: any, container: any) {
   const { proxy } = instance
   // 虚拟节点树
   const subTree = instance.render.call(proxy);
@@ -62,5 +62,5 @@ function setupRenderEffect(instance: any, vnode: any, container: any) {
   patch(subTree, container);
 
   // element->mount
-  vnode.el = subTree.el
+  initialVnode.el = subTree.el
 } 
