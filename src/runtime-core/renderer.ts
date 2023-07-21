@@ -6,7 +6,7 @@ export function render(vnode, container) {
 }
 
 function patch(vnode, container) {
-
+  console.log(vnode.type)
   if (typeof vnode.type === 'string') {
     processElement(vnode, container)
   } else if (isObject(vnode.type)) {
