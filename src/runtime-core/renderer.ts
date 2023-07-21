@@ -19,7 +19,7 @@ function processElement(vnode, container) {
 }
 
 function mountElement(vnode, container) {
-  const el = document.createElement(vnode.type)
+  const el = (vnode.el = document.createElement(vnode.type))
   const { children, props } = vnode
 
   if (typeof children === 'string') {
@@ -51,12 +51,16 @@ function mountComponent(vnode, container) {
   // 2. 创建组件的render方法
   setupComponent(instance);
   // 3. 执行render方法
-  setupRenderEffect(instance, container);
+  setupRenderEffect(instance, vnode, container);
 }
 
-function setupRenderEffect(instance: any, container: any) {
+function setupRenderEffect(instance: any, vnode: any, container: any) {
+  const { proxy } = instance
   // 虚拟节点树
-  const subTree = instance.render();
+  const subTree = instance.render.call(proxy);
   // 4. 将subTree挂载到container上
   patch(subTree, container);
-}
+
+  // element->mount
+  vnode.el = subTree.el
+} 
