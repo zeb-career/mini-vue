@@ -3,10 +3,10 @@ import { createComponentInstance, setupComponent } from "./component";
 import { Fragment, Text } from "./vnode";
 
 export function render(vnode, container) {
-  patch(vnode, container);
+  patch(vnode, container, null);
 }
 
-function patch(vnode, container, parentComponent?) {
+function patch(vnode, container, parentComponent) {
   const { type, shapeFlags } = vnode
 
   switch (type) {
