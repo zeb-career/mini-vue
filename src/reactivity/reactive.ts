@@ -33,7 +33,7 @@ export function isProxy(value) {
 
 function createRctiveObject(target: any, baseHandlers) {
   if (!isObject(target)) {
-    console.warn(`target ${target} 必须是一个object`)
+    console.warn(`target ${target} must be a object`)
     return target
   }
   return new Proxy(target, baseHandlers)
